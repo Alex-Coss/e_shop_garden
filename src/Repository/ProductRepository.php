@@ -28,7 +28,8 @@ class ProductRepository extends ServiceEntityRepository
     public function add(Product $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
-        if ($flush) {
+        if ($flush)
+        {
             $this->_em->flush();
         }
     }
@@ -40,7 +41,8 @@ class ProductRepository extends ServiceEntityRepository
     public function remove(Product $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
-        if ($flush) {
+        if ($flush)
+        {
             $this->_em->flush();
         }
     }

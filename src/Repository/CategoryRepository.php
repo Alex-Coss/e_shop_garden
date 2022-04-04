@@ -3,10 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Category;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+
+
 
 /**
  * @method Category|null find($id, $lockMode = null, $lockVersion = null)
@@ -28,7 +28,8 @@ class CategoryRepository extends ServiceEntityRepository
     public function add(Category $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
-        if ($flush) {
+        if ($flush)
+        {
             $this->_em->flush();
         }
     }
@@ -40,7 +41,8 @@ class CategoryRepository extends ServiceEntityRepository
     public function remove(Category $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
-        if ($flush) {
+        if ($flush)
+        {
             $this->_em->flush();
         }
     }

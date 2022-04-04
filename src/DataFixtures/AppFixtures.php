@@ -37,7 +37,7 @@ class AppFixtures extends Fixture
 
             $manager->persist($category);
 
-            for ($p = 0; $p < mt_rand(7, 8); $p++)
+            for ($p = 0; $p < mt_rand(2, 10); $p++)
             {
                 $product = new Product;
                 $product

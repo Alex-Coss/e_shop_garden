@@ -1,0 +1,36 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Création d'un produit
+{% endblock %}
+
+
+{% block body %}
+    <h1>Nouveau produit</h1>
+
+    {{form_start(formProduct)}}
+
+    {{form_errors(formProduct)}}
+
+    <div class="row">
+        <div class="col">
+            {{form_row(formProduct.name)}}
+            {{form_row(formProduct.price)}}
+        </div>
+
+        <div class="col">
+            {{form_row(formProduct.picture)}}
+            {{form_row(formProduct.category)}}
+            {{form_row(formProduct.description)}}
+
+        </div>
+    </div>
+
+
+    <button type="submit" class="btn btn-success">
+    <i class="fas fa-check"></i> Créer le produit
+    </button>
+
+    {{form_end(formProduct)}}
+
+{% endblock %}

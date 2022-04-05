@@ -20,27 +20,27 @@ class Product
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name_p;
+    private $name;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $price_p;
+    private $price;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $description_p;
+    private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $picture_p;
+    private $picture;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $slug_p;
+    private $slug;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="products")
@@ -52,62 +52,62 @@ class Product
         return $this->id;
     }
 
-    public function getNameP(): ?string
+    public function getName(): ?string
     {
-        return $this->name_p;
+        return $this->name;
     }
 
-    public function setNameP(string $name_p): self
+    public function setName(string $name): self
     {
-        $this->name_p = $name_p;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getPriceP(): ?int
+    public function getPrice(): ?int
     {
-        return $this->price_p;
+        return $this->price;
     }
 
-    public function setPriceP(int $price_p): self
+    public function setPrice(int $price): self
     {
-        $this->price_p = $price_p;
+        $this->price = $price;
 
         return $this;
     }
 
-    public function getDescriptionP(): ?string
+    public function getDescription(): ?string
     {
-        return $this->description_p;
+        return $this->description;
     }
 
-    public function setDescriptionP(string $description_p): self
+    public function setDescription(string $description): self
     {
-        $this->description_p = $description_p;
+        $this->description = $description;
 
         return $this;
     }
 
-    public function getPictureP(): ?string
+    public function getPicture(): ?string
     {
-        return $this->picture_p;
+        return $this->picture;
     }
 
-    public function setPictureP(string $picture_p): self
+    public function setPicture(string $picture): self
     {
-        $this->picture_p = $picture_p;
+        $this->picture = $picture;
 
         return $this;
     }
 
-    public function getSlugP(): ?string
+    public function getSlug(): ?string
     {
-        return $this->slug_p;
+        return $this->slug;
     }
 
-    public function setSlugP(string $slug_p): self
+    public function setSlug(string $slug): self
     {
-        $this->slug_p = $slug_p;
+        $this->slug = $slug;
 
         return $this;
     }

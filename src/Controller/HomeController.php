@@ -2,17 +2,29 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use App\Repository\CategoryRepository;
+use App\Repository\ProductRepository;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
     /**
      * @Route("/", name="homepage")
      */
-    public function home(): Response
+    public function homepage(ProductRepository $productRepository, CategoryRepository $categoryRepository)
     {
-        return $this->render('home.html.twig');
+
+        $products = $productRepository->findBy([], [], 4);
+        
+        $category = $categoryRepository->findAll();
+
+        // dd($products);
+
+        return $this->render('home.html.twig',
+        [
+            'products' => $products,
+            'category' => $category,
+        ]);
     }
 }

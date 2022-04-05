@@ -1,5 +1,7 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+    # config Symfony use Bootstrap5
+    form_themes: ['bootstrap_5_layout.html.twig'] #! Rajout du fichier dans vendor manuellement
 
 when@test:
     twig:

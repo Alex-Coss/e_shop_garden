@@ -1,4 +1,7 @@
 {
+    "bluemmb/faker-picsum-photos-provider": {
+        "version": "v2.0"
+    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {
@@ -20,6 +23,9 @@
     "doctrine/common": {
         "version": "3.2.2"
     },
+    "doctrine/data-fixtures": {
+        "version": "1.5.2"
+    },
     "doctrine/dbal": {
         "version": "3.3.4"
     },
@@ -38,6 +44,18 @@
             "config/packages/doctrine.yaml",
             "src/Entity/.gitignore",
             "src/Repository/.gitignore"
+        ]
+    },
+    "doctrine/doctrine-fixtures-bundle": {
+        "version": "3.4",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.0",
+            "ref": "1f5514cfa15b947298df4d771e694e578d4c204d"
+        },
+        "files": [
+            "src/DataFixtures/AppFixtures.php"
         ]
     },
     "doctrine/doctrine-migrations-bundle": {
@@ -76,6 +94,9 @@
     },
     "doctrine/sql-formatter": {
         "version": "1.1.2"
+    },
+    "fakerphp/faker": {
+        "version": "v1.19.0"
     },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.7"
@@ -158,6 +179,9 @@
             ".env"
         ]
     },
+    "symfony/form": {
+        "version": "v5.4.7"
+    },
     "symfony/framework-bundle": {
         "version": "5.4",
         "recipe": {
@@ -192,7 +216,13 @@
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
     },
+    "symfony/options-resolver": {
+        "version": "v5.4.3"
+    },
     "symfony/polyfill-intl-grapheme": {
+        "version": "v1.25.0"
+    },
+    "symfony/polyfill-intl-icu": {
         "version": "v1.25.0"
     },
     "symfony/polyfill-intl-normalizer": {
@@ -209,6 +239,12 @@
     },
     "symfony/polyfill-php81": {
         "version": "v1.25.0"
+    },
+    "symfony/property-access": {
+        "version": "v5.4.7"
+    },
+    "symfony/property-info": {
+        "version": "v5.4.7"
     },
     "symfony/proxy-manager-bridge": {
         "version": "v5.4.6"

@@ -32,8 +32,8 @@ class AppFixtures extends Fixture
         {
             $category = new Category;
             $category
-                ->setNameC($faker->company())
-                ->setSlugC(strtolower($this->slugger->slug($category->getNameC()))); //? le service slugger converti EN slug, le NAME de la CATEGORIE
+                ->setName($faker->company())
+                ->setSlug(strtolower($this->slugger->slug($category->getName()))); //? le service slugger converti EN slug, le NAME de la CATEGORIE
 
             $manager->persist($category);
 
@@ -41,13 +41,13 @@ class AppFixtures extends Fixture
             {
                 $product = new Product;
                 $product
-                    ->setNameP($faker->sentence(3))
-                    ->setPriceP(mt_rand(75, 25000))
+                    ->setName($faker->sentence(3))
+                    ->setPrice(mt_rand(75, 25000))
                     // ->setSlug($this->slugger->slug($product->getName()));  //! Warning, slug PascalCase !
-                    ->setSlugP(strtolower($this->slugger->slug($product->getNameP()))) //? "strtolower" = permet d'avoir les slugs en miniscule uniquement
+                    ->setSlug(strtolower($this->slugger->slug($product->getName()))) //? "strtolower" = permet d'avoir les slugs en miniscule uniquement
                     ->setCategory($category)
-                    ->setDescriptionP($faker->Text(100))
-                    ->setPictureP($faker->imageUrl(200, 200, true));
+                    ->setDescription($faker->Text(100))
+                    ->setPicture($faker->imageUrl(200, 200, true));
     
                 $manager->persist($product);
             }

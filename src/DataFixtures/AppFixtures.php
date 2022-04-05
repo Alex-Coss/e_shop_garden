@@ -28,16 +28,17 @@ class AppFixtures extends Fixture
         $faker->addProvider(new \Bluemmb\Faker\PicsumPhotosProvider($faker)); //? Extension pour faker pour des photos via picsum
 
         
-        for ($c = 0; $c < 5; $c++)
+        for ($c = 0; $c < 4; $c++)
         {
             $category = new Category;
             $category
                 ->setName($faker->company())
+                ->setPicture($faker->imageUrl(200, 200, true))
                 ->setSlug(strtolower($this->slugger->slug($category->getName()))); //? le service slugger converti EN slug, le NAME de la CATEGORIE
 
             $manager->persist($category);
 
-            for ($p = 0; $p < mt_rand(2, 10); $p++)
+            for ($p = 0; $p < mt_rand(2, 5); $p++)
             {
                 $product = new Product;
                 $product

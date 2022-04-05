@@ -8,7 +8,7 @@
 
 {% block body %}
 
-    <h1>Nos produits phares</h1>
+    <h1>Nos principaux produits</h1>
     <div class="row">
 
         {% for p in products %}
@@ -19,12 +19,12 @@
 
                 <div class="card-body">
                     <h4 class="card-title">{{p.name}} ({{p.price / 100}} &euro;)</h4>
-                    <span class="badge bg-info">
+                    <span class="badge bg-primary disabled">
                         {{p.category.name}}
                     </span>
                     <p class="card-text">{{p.description}}</p>
-                    <a href="{{path('product_show', {'category_slug': p.category.slug, 'slug': p.slug})}}" class="btn btn-primary btn-sm">Détail</a>
-                    <a href="#" class="btn btn-success btn-sm">Ajouter au panier</a>
+                    <a href="{{path('product_show', {'category_slug': p.category.slug, 'slug': p.slug})}}" class="btn btn-info disabled">Détail</a>
+                    <a href="#" class="btn btn-success">Ajouter au panier</a>
                 </div>
             
             </div>
@@ -37,6 +37,34 @@
     <br>
     <hr>
     <br>
+
+
+    <h1>Les catégories existantes</h1>
+    <div class="row">
+
+        {% for c in category %}
+            
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">{{c.name}}</h4>
+                    <img src="{{c.picture}}" class="img-fluid" alt="Image du produit">
+
+                    {# <a href="{{path('product_show', {'category_slug': p.category.slug, 'slug': p.slug})}}" class="btn btn-info disabled">Détail</a> #}
+                    <a href="#" class="btn btn-info disabled mt-2">Voir en détail</a>
+                </div>
+            
+            </div>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <br>
+    <hr>
+    <br>
+
 
     <h2>Un service optimal</h2>
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. At totam ea quo sed in atque eveniet accusantium placeat impedit provident.</p>
@@ -51,7 +79,7 @@
 
         {% include "layout/_assurance.html.twig" with 
         {
-            'color': 'primary',
+            'color': 'info',
             'icone': 'fas fa-truck',
             'text': "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Officiis adipisci pariatur ducimus alias quia quaerat quibusdam distinctio similique quo odio."
         } %}

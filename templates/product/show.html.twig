@@ -25,9 +25,16 @@
     <div class="col">
         <span class="badge bg-info">{{product.category.name}}</span>
         <p>{{product.description}}</p>
-        {# <a href="{{path('product_edit')}}" class="btn btn-success btn-lg"><i class="fas fa-shopping-cart"></i> Modifier le produit</a> #}
         <a href="#" class="btn btn-success btn-lg"><i class="fas fa-shopping-cart"></i> Ajouter au panier </a>
+
+        {# ! Boutton edition product ! #}
+        {# <a href="{{path('admin/product/{id}/edit')}}" class="btn btn-info mt-1">Modifier</a> #}
+        {# <a href="{{path('Back_admin_product_edit')}}" class="btn btn-warning btn-lg"><i class="fas fa-shopping-cart"></i> Modifier </a> #}
     </div>
+
+
+
+    
     
     </div>
 {% endblock %}

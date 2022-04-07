@@ -11,11 +11,11 @@
     <ul class="navbar-nav me-auto">
 
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Catégories</a>
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Catégories (HS)</a>
             <div class="dropdown-menu">
-                {# {% for c in category %}
-                    <a class="nav-link" href="{{path('category_slug': c.slug, 'slug': c.slug)}}">{{ c.name }}</a>
-                {% endfor %} #}
+                {% for c in category %}
+                    {# <a class="nav-link" href="{{path('view/', {c.id})}}">{{ c.name }}</a> #}
+                {% endfor %}
 
 
 

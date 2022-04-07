@@ -17,32 +17,7 @@ class ProductController extends AbstractController
 {
 
     /**
-     * @Route("/{slug}", name="product_category", priority=-1)
-     */
-    public function category($slug, CategoryRepository $categoryRepository)
-    {
-        $category = $categoryRepository->findOneBy(['slug' => $slug]);
-        // dd($category);
-
-
-        /**
-         *! Page d'erreur
-         */
-        // if(!$category){throw new NotFoundHttpException("La catégorie demandée n'existe pas");}  //? Existe aussi d'une autre façon
-        if (!$category)
-        {
-            throw $this->createNotFoundException("La catégorie demandée n'existe pas");
-        }
-
-        return $this->render('product/category.html.twig',
-            [
-            'slug' => $slug,
-            'category' => $category,
-            ]);
-    }
-
-    /**
-     * @Route("/{category_slug}/{slug}", name="product_show")
+     * @Route("/view/{category_slug}/{slug}", name="product_show") //! Préfixer pb de route => view en prefix pour voir le product
      */
     public function show($slug, ProductRepository $productRepository)
     {

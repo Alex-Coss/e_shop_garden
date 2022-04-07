@@ -25,8 +25,8 @@ class ProductType extends AbstractType
                 'name',
                 TextType::class,
                 [
-                'label' => 'Nom du produit',
-                'attr' => ['placeholder' => 'Ici, le nom du produit'],
+                    'label' => 'Nom du produit',
+                    'attr' => ['placeholder' => 'Ici, le nom du produit'],
                 ]
             )
             ->add
@@ -34,10 +34,10 @@ class ProductType extends AbstractType
                 'price',
                 MoneyType::class,
                 [
-                'label' => 'Prix du produit',
-                'attr' => ['placeholder' => 'Écrivez ici le prix en €uros !'],
-                // 'currency' => false, // retrait du symbole de la devise //? Commenté car le template Bootstrap change la localisation du symbole
-                'divisor' => 100,
+                    'label' => 'Prix du produit',
+                    'attr' => ['placeholder' => 'Écrivez ici le prix en €uros !'],
+                    // 'currency' => false, // retrait du symbole de la devise //? Commenté car le template Bootstrap change la localisation du symbole
+                    'divisor' => 100,
                 ]
             )
             ->add
@@ -45,8 +45,8 @@ class ProductType extends AbstractType
                 'description',
                 TextareaType::class,
                 [
-                'label' => 'Courte description',
-                'attr' => ['placeholder' => 'Écrivez une description courte mais frappante !'],
+                    'label' => 'Courte description',
+                    'attr' => ['placeholder' => 'Écrivez une description courte mais frappante !'],
                 ]
             )
             ->add
@@ -54,8 +54,8 @@ class ProductType extends AbstractType
                 'picture',
                 UrlType::class,
                 [
-                'label' => 'Image du produit',
-                'attr' => ['placeholder' => 'Url de l\'image'],
+                    'label' => 'Image du produit',
+                    'attr' => ['placeholder' => 'Url de l\'image'],
                 ]
             )
             ->add
@@ -63,11 +63,11 @@ class ProductType extends AbstractType
                 'category',
                 EntityType::class,
                 [
-                'label' => 'Catégorie',
-                'attr' => ['class' => 'form-control',],
-                'placeholder' => '-- Choisir une catégorie --',
-                'class' => Category::class,
-                'choice_label' => 'name'
+                    'label' => 'Catégorie',
+                    'attr' => ['class' => 'form-control',],
+                    'placeholder' => '-- Choisir une catégorie --',
+                    'class' => Category::class,
+                    'choice_label' => 'name'
                 ]
             );
     }

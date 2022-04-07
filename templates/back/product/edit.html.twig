@@ -1,11 +1,11 @@
 {% extends "base.html.twig" %}
 
 {% block title %}
-    Edition de {{product.name}}
+    Edition de {{product.id}} {{product.name}}
 {% endblock %}
 
 {% block body %}
-    <h1>Edition de {{product.name}}</h1>
+    <h1>Edition de {{product.id}}, {{product.name}}</h1>
 
     {{form_start(formProduct)}}
 

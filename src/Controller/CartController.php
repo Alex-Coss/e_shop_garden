@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Cart\CartService;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,15 +16,28 @@ use Symfony\Component\Routing\Annotation\Route;
 class CartController extends AbstractController
 {
     /**
-     * @Route("/add/{id}", name="add", methods={"GET", "POST"}, requirements={"id":"\d+"}) //?nombre only
-     */
-    public function add($id, SessionInterface $session, ProductRepository $productRepository)
+     * @Route("/", name="browse", methods={"GET"})
+     */ //?browse
+    public function show(CartService $cartService): Response
     {
-        // dd($id);
+        $detailCart = $cartService->getDetailItems();
 
-        // Chercher le panier dans la session, sous forme de tableau
-        $cart = $session->get('cart', []); // si rien, tableau vide
+        $total = $cartService->getTotal();
 
+        return $this->render('cart/browse.html.twig', 
+    [
+        'items' => $detailCart,
+        'total' => $total
+    ]);
+    }
+
+
+
+    /**
+     * @Route("/add/{id}", name="add", methods={"GET", "POST"}, requirements={"id":"\d+"}) //?nombre only
+     */ //? add
+    public function add($id, ProductRepository $productRepository, CartService $cartService)
+    {
         // Est-ce que le produit existe dans la DB ?
         $product = $productRepository->find($id);
 
@@ -32,25 +46,24 @@ class CartController extends AbstractController
             throw $this->createNotFoundException("Le produit $id n'existe pas"); // msg d'erreur
         }
 
-        if (array_key_exists($id, $cart)) // Si le produit est dans le panier
-        {
-            $cart[$id]++; // Rajouter le produit
-        }
-        else // si le produit n'est PAS dans le panier
-        {
-            $cart[$id] = 1; // Ajouter le produit dans le panier
-        }
-
-
-        $session->set('cart', $cart);
+        $cartService->add($id);
 
         // $session->remove('cart'); //? Phase dev => remet à ZERO le panier de la session
+
+
+        // addFlash est un raccourci AbstractController de flashBag
+        $this->addFlash('success', 'Le produit a bien été rajouté au panier !');
+        // $this->addFlash('warning', 'Attention, ya eu un problème');
+        $this->addFlash('info', 'Pour info, c\'est fait');
+        // $this->addFlash('warning', 'Attention, ya eu un problème V2');
+        // $this->addFlash('danger', 'Attention, ya eu un problème again !');
+
 
         // dd($session->get('cart'));
 
         return $this->redirectToRoute('product_show',
         [
-            'category_slug' => $product->getSlug(), // slug de la catégorie
+            'category_slug' => $product->getCategory()->getSlug(), // slug de la catégorie
             'slug' => $product->getSlug() // slug du produit
         ]);
     }

@@ -6,12 +6,14 @@ use App\Repository\ProductRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-
+/**
+ * @Route("/view", name="product_")
+ */
 class ProductController extends AbstractController
 {
 
     /**
-     * @Route("/view/{category_slug}/{slug}", name="product_show", methods={"GET"}) //? Préfixer pb de route => view en prefix pour voir le product
+     * @Route("/{category_slug}/{slug}", name="show", methods={"GET"}) //? Préfixer pb de route => view en prefix pour voir le product
      */
     public function show($slug, ProductRepository $productRepository)
     {

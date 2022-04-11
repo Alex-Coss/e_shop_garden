@@ -2,6 +2,7 @@
 
 namespace App\Cart;
 
+use App\Cart\CartItem;
 use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
@@ -16,10 +17,20 @@ class CartService
         $this->productRepository = $productRepository;
     }
 
+    protected function getCart(): array
+    {
+        return $this->session->get('cart', []); //? Récupère les données de la session (panier)
+    }
+
+    protected function saveCart(array $cart)
+    {
+        $this->session->set('cart', $cart); //? met à jour les données de la session (panier)
+    }
+
     public function add(int $id)
     {
         // Chercher le panier dans la session, sous forme de tableau
-        $cart = $this->session->get('cart', []); // si rien, tableau vide
+        $cart = $this->getCart(); // si rien, tableau vide
 
         if (array_key_exists($id, $cart)) // Si le produit est dans le panier
         {
@@ -30,18 +41,57 @@ class CartService
             $cart[$id] = 1; // Ajouter le produit dans le panier
         }
 
-
-        $this->session->set('cart', $cart);
+        // Enregistrer le tout
+        $this->saveCart($cart);
     }
+
+
+    public function remove(int $id)
+    {
+        $cart = $this->getCart();
+
+        unset($cart[$id]);
+
+        $this->saveCart($cart);
+    }
+
+    public function decrement(int $id)
+    {
+        $cart = $this->getCart(); // Avoir le panier de la session en cours
+
+        if (!array_key_exists($id, $cart)) // Si PAS $id dans le panier, rien à faire, poursuivre.
+        {
+            return;
+        }
+        
+        // Si $id est dans le panier alors :
+        if ($cart[$id] === 1) // si ID = 1
+        {
+            $this->remove($id); // on supprime
+            return; // on continue
+        }
+
+        // Si $id n'est pas =1 (donc +), alors
+        $cart[$id]--; // -1 $id (decrement / réduire)
+
+        $this->saveCart($cart); // mettre à jour le panier avec les infos MAJ
+        
+    }
+
 
     // Avoir le total d'un panier
     public function getTotal(): int
     {
         $total = 0;
 
-        foreach ($this->session->get('cart', []) as $id => $quantity)
+        foreach ($this->getCart() as $id => $quantity)
         {
             $product = $this->productRepository->find($id);
+
+            if (!$product) 
+            {
+                continue;
+            }
 
             $total += $product->getPrice() * $quantity;
         }
@@ -50,20 +100,22 @@ class CartService
 
     }
 
+
     // Avoir le détail d'un panier par articles (tableau)
     public function getDetailItems(): array
     {
         $detailCart = [];
 
-        foreach ($this->session->get('cart', []) as $id => $quantity)
+        foreach ($this->getCart() as $id => $quantity)
         {
             $product = $this->productRepository->find($id);
 
-            $detailCart[] =
-            [
-                'product' => $product,
-                'quantity' => $quantity
-            ];
+            if (!$product) 
+            {
+                continue;
+            }
+
+            $detailCart[] = new CartItem($product, $quantity);
         }
         
         return $detailCart;

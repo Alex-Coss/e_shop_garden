@@ -3,6 +3,12 @@ twig:
     # config Symfony use Bootstrap5
     form_themes: ['bootstrap_5_layout.html.twig'] #! Rajout du fichier dans vendor manuellement
 
+    # Injection de services pour l'utilisation dans un fichier TWIG
+    globals:
+        categoryRepository: "@App\\Repository\\CategoryRepository"
+        cartService: "@App\\Cart\\CartService"
+
 when@test:
     twig:
         strict_variables: true
+

@@ -3,9 +3,10 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
+use App\Entity\User;
 use App\Entity\Product;
 use App\Entity\Category;
-use App\Entity\User;
+use Doctrine\DBAL\Connection;
 use Bluemmb\Faker\PicsumPhotosProvider;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -17,14 +18,30 @@ class AppFixtures extends Fixture
 {
     protected $slugger;
 
-    public function __construct(SluggerInterface $slugger)
+    public function __construct(SluggerInterface $slugger, Connection $connection)
     {
         $this->slugger = $slugger;
+        $this->connection = $connection;
+
+    }
+
+    private function truncate() // Discussion en SQL
+    {
+        // Désactivation des contraintes 
+        $this->connection->executeQuery('SET foreign_key_checks = 0');
+        // Let's go tronquage
+        $this->connection->executeQuery('TRUNCATE TABLE product');
+        $this->connection->executeQuery('TRUNCATE TABLE category');
+        $this->connection->executeQuery('TRUNCATE TABLE user');
     }
 
     
     public function load(ObjectManager $manager): void
     {
+        // Truncate des tables manuellement pour revenir à ID = 1
+        $this->truncate();
+
+        // Création instance de Faker, et en FR
         $faker = Factory::create('fr_FR');
         $faker->addProvider(new \Bluemmb\Faker\PicsumPhotosProvider($faker)); //? Extension pour faker pour des photos via picsum
 

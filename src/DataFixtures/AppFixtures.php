@@ -6,6 +6,7 @@ use Faker\Factory;
 use App\Entity\User;
 use App\Entity\Product;
 use App\Entity\Category;
+use App\Entity\Purchase;
 use Doctrine\DBAL\Connection;
 use Bluemmb\Faker\PicsumPhotosProvider;
 use Doctrine\Persistence\ObjectManager;
@@ -27,12 +28,14 @@ class AppFixtures extends Fixture
 
     private function truncate() // Discussion en SQL
     {
-        // Désactivation des contraintes 
+        // Désactivation des contraintes TEMPORAIREMENT
         $this->connection->executeQuery('SET foreign_key_checks = 0');
         // Let's go tronquage
         $this->connection->executeQuery('TRUNCATE TABLE product');
         $this->connection->executeQuery('TRUNCATE TABLE category');
         $this->connection->executeQuery('TRUNCATE TABLE user');
+        // rajout au fur et à mesure les infos de truncate
+        $this->connection->executeQuery('TRUNCATE TABLE purchase');
     }
 
     
@@ -67,6 +70,9 @@ class AppFixtures extends Fixture
                 ->setLastname($faker->lastName())
                 ->setPhone1($faker->phoneNumber());
 
+            // Je lie l'user à l'user de la PURCHASE
+            $users[] = $user;
+
             $manager->persist($user);
         }
 
@@ -95,6 +101,28 @@ class AppFixtures extends Fixture
     
                 $manager->persist($product);
             }
+        }
+
+        for ($p=0; $p < mt_rand(10, 20); $p++)
+        { 
+            $purchase = new Purchase;
+
+            $purchase
+                ->setFullName($faker->name)
+                ->setAddress($faker->streetAddress)
+                ->setZipCode($faker->postcode)
+                ->setCity($faker->city)
+                ->setPhone1($faker->phoneNumber)
+                // Faker va chercher dans les $users (voir $user) et il va en choisir aléatoirement pour générer des fixtures
+                ->setUser($faker->randomElement($users))
+                ->setTotal(mt_rand(2000, 50000));
+                
+            if ($faker->boolean(75)) //75% de chance que le status de la commande soit payée, et plus en attente (pending)
+            {
+                $purchase->setStatus(Purchase::STATUS_PAID);
+            } // pas de ELSE, car dans l'entity, il a été décidé que par défaut, ce serait PENDING
+
+            $manager->persist($purchase);
         }
 
         $manager->flush();

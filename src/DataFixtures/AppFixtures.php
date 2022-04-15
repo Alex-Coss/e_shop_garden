@@ -6,6 +6,7 @@ use Faker\Factory;
 use App\Entity\User;
 use App\Entity\Product;
 use App\Entity\Category;
+use App\Entity\ItemPurchase;
 use App\Entity\Purchase;
 use Doctrine\DBAL\Connection;
 use Bluemmb\Faker\PicsumPhotosProvider;
@@ -36,6 +37,7 @@ class AppFixtures extends Fixture
         $this->connection->executeQuery('TRUNCATE TABLE user');
         // rajout au fur et à mesure les infos de truncate
         $this->connection->executeQuery('TRUNCATE TABLE purchase');
+        $this->connection->executeQuery('TRUNCATE TABLE item_purchase');
     }
 
     
@@ -48,6 +50,10 @@ class AppFixtures extends Fixture
         $faker = Factory::create('fr_FR');
         $faker->addProvider(new \Bluemmb\Faker\PicsumPhotosProvider($faker)); //? Extension pour faker pour des photos via picsum
 
+
+        // !  -_-_-_-_-_  NEW USER _-_-_-_-_-
+
+
         $admin = new User;
         $admin
             ->setUsername("admin")
@@ -58,6 +64,7 @@ class AppFixtures extends Fixture
             ->setLastname($faker->lastName())
             ->setPhone1($faker->phoneNumber());
         $manager->persist($admin);
+
 
         for ($u=0; $u < 5; $u++)
         { 
@@ -77,6 +84,14 @@ class AppFixtures extends Fixture
         }
 
 
+
+        $products = [];
+
+
+
+        // !  -_-_-_-_-_  NEW CATEGORY _-_-_-_-_-
+
+
         for ($c = 0; $c < 4; $c++)
         {
             $category = new Category;
@@ -86,6 +101,12 @@ class AppFixtures extends Fixture
                 ->setSlug(strtolower($this->slugger->slug($category->getName()))); //? le service slugger converti EN slug, le NAME de la CATEGORIE
 
             $manager->persist($category);
+
+
+
+        // !  -_-_-_-_-_  NEW PRODUCT _-_-_-_-_-
+
+
 
             for ($p = 0; $p < mt_rand(2, 5); $p++)
             {
@@ -98,24 +119,50 @@ class AppFixtures extends Fixture
                     ->setCategory($category)
                     ->setDescription($faker->Text(100))
                     ->setPicture($faker->imageUrl(200, 200, true));
+
+                    $products[] = $product;
     
                 $manager->persist($product);
             }
         }
+
+
+        // !  -_-_-_-_-_  NEW PURCHASE _-_-_-_-_-
+
+
 
         for ($p=0; $p < mt_rand(10, 20); $p++)
         { 
             $purchase = new Purchase;
 
             $purchase
-                ->setFullName($faker->name)
-                ->setAddress($faker->streetAddress)
-                ->setZipCode($faker->postcode)
-                ->setCity($faker->city)
-                ->setPhone1($faker->phoneNumber)
+                ->setFullName($faker->name())
+                ->setAddress($faker->streetAddress())
+                ->setZipCode($faker->postcode())
+                ->setCity($faker->city())
+                ->setPhone1($faker->phoneNumber())
                 // Faker va chercher dans les $users (voir $user) et il va en choisir aléatoirement pour générer des fixtures
                 ->setUser($faker->randomElement($users))
+                ->setPurchaseAt($faker->dateTimeBetween('-6 months'))
                 ->setTotal(mt_rand(2000, 50000));
+
+                $selectedProducts = $faker->randomElements($products, mt_rand(3, 5));
+
+            //!  -_-_-_-_-_  NEW ITEM_PURCHASE _-_-_-_-_-
+
+                foreach ($selectedProducts as $product)
+                {
+                    $itemPurchase = new ItemPurchase;
+                    $itemPurchase
+                        ->setProduct($product)
+                        ->setProductName($product->getName())
+                        ->setProductPrice($product->getPrice())
+                        ->setPurchase($purchase)
+                        ->setQuantity(mt_rand(1, 5))
+                        ->setTotal($itemPurchase->getProductPrice() * $itemPurchase->getQuantity());
+                    
+                        $manager->persist($itemPurchase);
+                }
                 
             if ($faker->boolean(75)) //75% de chance que le status de la commande soit payée, et plus en attente (pending)
             {

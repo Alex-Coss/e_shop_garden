@@ -60,7 +60,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $additionnaladdress;
+    private $additionnalAddress;
 
     /**
      * @ORM\Column(type="string", length=5, nullable=true)
@@ -234,14 +234,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getAdditionnaladdress(): ?string
+    public function getAdditionnalAddress(): ?string
     {
-        return $this->additionnaladdress;
+        return $this->additionnalAddress;
     }
 
-    public function setAdditionnaladdress(?string $additionnaladdress): self
+    public function setAdditionnalAddress(?string $additionnalAddress): self
     {
-        $this->additionnaladdress = $additionnaladdress;
+        $this->additionnalAddress = $additionnalAddress;
 
         return $this;
     }

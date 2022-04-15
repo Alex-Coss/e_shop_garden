@@ -52,10 +52,36 @@
         </tfoot>
 
     </table>
+    <hr>
+
+    {% if app.user %}
+    
+    
+    <h2>Confirmez votre commande ICI !</h2>
+    <p>remplissez le formulaire ici</p>
+
+    {{form_start(confirmationForm, {'action': path('app_purchase_confirmation')})}}
+
+    {{form_errors(confirmationForm)}}
+
+    <button type="submit" class="btn btn-success">
+    <i class="fas fa-check"></i> Je confirme !!
+    </button>
+
+    {{form_end(confirmationForm)}}
+    
+    {% else %}
+        <h2>Vous devez être connecté pour confirmer la commande !!!!</h2>
+    
+    <a href="{{path('app_login')}}" class="btn btn-success m-2">Se connecter</a>
+    ou 
+    <a href="#">Créer un compte</a>
+    {% endif %}
+    
+
 
 {% else %}
     <h2>Le panier est vide (pour l'instant !!!)</h2>
-
 {% endif %}
 
 {% endblock %}

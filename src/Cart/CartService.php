@@ -101,7 +101,11 @@ class CartService
     }
 
 
-    // Avoir le détail d'un panier par articles (tableau)
+    /**
+     * Avoir le détail d'un panier par articles (tableau)
+     *
+     * @return CartItem[]
+     */
     public function getDetailItems(): array
     {
         $detailCart = [];
@@ -119,5 +123,10 @@ class CartService
         }
         
         return $detailCart;
+    }
+
+    public function empty()
+    {
+        $this->saveCart([]);
     }
 }

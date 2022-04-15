@@ -5,6 +5,7 @@
         "categorytype",
         "Picsum",
         "productype",
+        "tronquage",
         "zipcode"
     ]
 }

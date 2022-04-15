@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PurchaseRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -40,7 +42,7 @@ class Purchase
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $additionnaladdress;
+    private $additionnalAddress;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -71,7 +73,23 @@ class Purchase
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="purchases")
      */
-    private $user; //? PURCHASE sans USER => dans le cas de suppression de USER, garder les PURCHASE en mémoire
+    private $user;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $purchaseAt;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ItemPurchase::class, mappedBy="purchase", orphanRemoval=true)
+     */
+    private $itemPurchases;
+
+    public function __construct()
+    {
+        $this->itemPurchases = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -114,14 +132,14 @@ class Purchase
         return $this;
     }
 
-    public function getAdditionnaladdress(): ?string
+    public function getAdditionnalAddress(): ?string
     {
-        return $this->additionnaladdress;
+        return $this->additionnalAddress;
     }
 
-    public function setAdditionnaladdress(?string $additionnaladdress): self
+    public function setAdditionnalAddress(?string $additionnalAddress): self
     {
-        $this->additionnaladdress = $additionnaladdress;
+        $this->additionnalAddress = $additionnalAddress;
 
         return $this;
     }
@@ -194,6 +212,48 @@ class Purchase
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPurchaseAt(): ?\DateTimeInterface
+    {
+        return $this->purchaseAt;
+    }
+
+    public function setPurchaseAt(\DateTimeInterface $purchaseAt): self
+    {
+        $this->purchaseAt = $purchaseAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ItemPurchase>
+     */
+    public function getItemPurchases(): Collection
+    {
+        return $this->itemPurchases;
+    }
+
+    public function addItemPurchase(ItemPurchase $itemPurchase): self
+    {
+        if (!$this->itemPurchases->contains($itemPurchase)) {
+            $this->itemPurchases[] = $itemPurchase;
+            $itemPurchase->setPurchase($this);
+        }
+
+        return $this;
+    }
+
+    public function removeItemPurchase(ItemPurchase $itemPurchase): self
+    {
+        if ($this->itemPurchases->removeElement($itemPurchase)) {
+            // set the owning side to null (unless already changed)
+            if ($itemPurchase->getPurchase() === $this) {
+                $itemPurchase->setPurchase(null);
+            }
+        }
 
         return $this;
     }

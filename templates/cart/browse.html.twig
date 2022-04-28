@@ -64,18 +64,20 @@
 
     {{form_errors(confirmationForm)}}
 
-    <button type="submit" class="btn btn-success">
+    {# Si le btn est ici, visuellement il est en haut du form. #}
+    {# Si le btn est après , il ne fonctionne pas, car hors du form #}
+    <button type="submit" action='app_purchase_confirmation' class="btn btn-success mb-2">
     <i class="fas fa-check"></i> Je confirme !!
     </button>
 
     {{form_end(confirmationForm)}}
-    
+
     {% else %}
         <h2>Vous devez être connecté pour confirmer la commande !!!!</h2>
     
     <a href="{{path('app_login')}}" class="btn btn-success m-2">Se connecter</a>
     ou 
-    <a href="#">Créer un compte</a>
+    <a href="#" class="m-2">Créer un compte</a>
     {% endif %}
     
 
